@@ -10,8 +10,7 @@ defined('C5_EXECUTE') or die("Access Denied.");
  * @copyright  Copyright (c) 2003-2008 Concrete5. (http://www.concrete5.org)
  * @license    http://www.concrete5.org/license/     MIT License
  */
-class BaseView extends Object
-{
+class BaseView extends Object {
 
     private $viewPath;
 
@@ -49,19 +48,17 @@ class BaseView extends Object
      */
     private $isEditingEnabled = true;
 
-
     /**
      * This grabs the theme for a particular path, if one exists in the themePaths array
      * @access private
      * @param string $path
      * @return string $theme
      */
-    private function getThemeFromPath($path)
-    {
+    private function getThemeFromPath($path) {
         // there's probably a more efficient way to do this
         $theme = false;
         $txt = Loader::helper('text');
-        foreach ($this->themePaths as $lp => $layout) {
+        foreach($this->themePaths as $lp => $layout) {
             if ($txt->fnmatch($lp, $path)) {
                 $theme = $layout;
                 break;
@@ -75,8 +72,7 @@ class BaseView extends Object
      * in order to make certain style attributes found inside editable
      * @param string $stylesheet
      */
-    public function getStyleSheet($stylesheet)
-    {
+    public function getStyleSheet($stylesheet) {
         if ($this->isPreview()) {
             return REL_DIR_FILES_TOOLS . '/css/' . DIRNAME_THEMES . '/' . $this->getThemeHandle() . '/' . $stylesheet . '?mode=preview&time=' . time();
         } else {
@@ -89,8 +85,7 @@ class BaseView extends Object
      * @access private
      */
 
-    public function addHeaderItem($item, $namespace = 'VIEW')
-    {
+    public function addHeaderItem($item, $namespace = 'VIEW') {
         $this->headerItems[$namespace][] = $item;
     }
 
@@ -98,13 +93,11 @@ class BaseView extends Object
      * Function responsible for adding footer items within the context of a view.
      * @access private
      */
-    public function addFooterItem($item, $namespace = 'VIEW')
-    {
+    public function addFooterItem($item, $namespace = 'VIEW') {
         $this->footerItems[$namespace][] = $item;
     }
 
-    public function getHeaderItems()
-    {
+    public function getHeaderItems() {
         $a1 = (is_array($this->headerItems['CORE'])) ? $this->headerItems['CORE'] : array();
         $a2 = (is_array($this->headerItems['VIEW'])) ? $this->headerItems['VIEW'] : array();
         $a3 = (is_array($this->headerItems['CONTROLLER'])) ? $this->headerItems['CONTROLLER'] : array();
@@ -119,8 +112,7 @@ class BaseView extends Object
         return $items;
     }
 
-    public function getFooterItems()
-    {
+    public function getFooterItems() {
         $a1 = (is_array($this->footerItems['CORE'])) ? $this->footerItems['CORE'] : array();
         $a2 = (is_array($this->footerItems['VIEW'])) ? $this->footerItems['VIEW'] : array();
         $a3 = (is_array($this->footerItems['CONTROLLER'])) ? $this->footerItems['CONTROLLER'] : array();
@@ -137,7 +129,7 @@ class BaseView extends Object
         // also strip out anything that was in the header
         $headerItems = $this->getHeaderItems();
         $retitems = array();
-        foreach ($items as $it) {
+        foreach($items as $it) {
             if (!in_array($it, $headerItems)) {
                 $retitems[] = $it;
             }
@@ -149,8 +141,7 @@ class BaseView extends Object
      * Function responsible for outputting header items
      * @access private
      */
-    public function outputHeaderItems()
-    {
+    public function outputHeaderItems() {
 
         $items = $this->getHeaderItems();
 
@@ -161,7 +152,7 @@ class BaseView extends Object
         $outputPost = array();
         $output = array();
 
-        foreach ($items as $hi) {
+        foreach($items as $hi) {
             print $hi; // caled on two seperate lines because of pre php 5.2 __toString issues
             print "\n";
         }
@@ -172,18 +163,16 @@ class BaseView extends Object
      * Function responsible for outputting footer items
      * @access private
      */
-    public function outputFooterItems()
-    {
+    public function outputFooterItems() {
         $items = $this->getFooterItems();
 
-        foreach ($items as $hi) {
+        foreach($items as $hi) {
             print $hi; // caled on two seperate lines because of pre php 5.2 __toString issues
             print "\n";
         }
     }
 
-    public function field($fieldName)
-    {
+    public function field($fieldName) {
         return $this->controller->field($fieldName);
     }
 
@@ -191,40 +180,35 @@ class BaseView extends Object
     /**
      * @access private
      */
-    public function enablePreview()
-    {
+    public function enablePreview() {
         $this->isPreview = true;
     }
 
     /**
      * @access private
      */
-    public function isPreview()
-    {
+    public function isPreview() {
         return $this->isPreview;
     }
 
     /**
      * @access private
      */
-    public function disableLinks()
-    {
+    public function disableLinks() {
         $this->areLinksDisabled = true;
     }
 
     /**
      * @access private
      */
-    public function enableLinks()
-    {
+    public function enableLinks() {
         $this->areLinksDisabled = false;
     }
 
     /**
      * @access private
      */
-    public function areLinksDisabled()
-    {
+    public function areLinksDisabled() {
         return $this->areLinksDisabled;
     }
 
@@ -232,28 +216,21 @@ class BaseView extends Object
      * Returns the path used to access this view
      * @return string $viewPath
      */
-    private function getViewPath()
-    {
+    private function getViewPath() {
         return $this->viewPath;
     }
 
     /**
      * Returns the handle of the currently active theme
      */
-    public function getThemeHandle()
-    {
-        return $this->ptHandle;
-    }
+    public function getThemeHandle() { return $this->ptHandle;}
 
     /**
      * gets the theme include file for this particular view
      * @access public
      * @return string $theme
      */
-    public function getTheme()
-    {
-        return $this->theme;
-    }
+    public function getTheme() { return $this->theme;}
 
 
     /**
@@ -261,10 +238,7 @@ class BaseView extends Object
      * @access public
      * @return string $themePath
      */
-    public function getThemePath()
-    {
-        return $this->themePath;
-    }
+    public function getThemePath() { return $this->themePath; }
 
 
     /**
@@ -272,20 +246,14 @@ class BaseView extends Object
      * @access public
      * @param string $path
      */
-    public function setThemeDirectory($path)
-    {
-        $this->themeDir = $path;
-    }
+    public function setThemeDirectory($path) { $this->themeDir=$path; }
 
     /**
      * get directory of current theme for use when loading an element
      * @access public
      * @return string $themeDir
      */
-    public function getThemeDirectory()
-    {
-        return $this->themeDir;
-    }
+    public function getThemeDirectory() {return $this->themeDir;}
 
 
     /**
@@ -295,12 +263,11 @@ class BaseView extends Object
      * @param $theme object, if null site theme is default
      * @return void
      */
-    public function setThemeByPath($path, $theme = NULL)
-    {
+    public function setThemeByPath($path, $theme = NULL) {
         if ($theme != VIEW_CORE_THEME && $theme != 'dashboard') { // this is a hack until we figure this code out.
             if (is_string($theme)) {
                 $pageTheme = PageTheme::getByHandle($theme);
-                if (is_object($pageTheme) && $pageTheme->getThemeHandle() == $theme) { // is it the theme that's been requested?
+                if(is_object($pageTheme) && $pageTheme->getThemeHandle() == $theme) { // is it the theme that's been requested?
                     $theme = $pageTheme;
                 }
             }
@@ -314,8 +281,7 @@ class BaseView extends Object
      * @param $key
      * @return void
      */
-    public function post($key)
-    {
+    public function post($key) {
         return $this->controller->post($key);
     }
 
@@ -325,8 +291,7 @@ class BaseView extends Object
      * @access public
      * @return Collection Object $c
      */
-    public function getCollectionObject()
-    {
+    public function getCollectionObject() {
         return $this->c;
     }
 
@@ -335,8 +300,7 @@ class BaseView extends Object
      * @access public
      * @return void
      */
-    public function setCollectionObject($c)
-    {
+    public function setCollectionObject($c) {
         $this->c = $c;
     }
 
@@ -350,8 +314,7 @@ class BaseView extends Object
      * @param array $args
      * @return void
      */
-    public function inc($file, $args = array())
-    {
+    public function inc($file, $args = array()) {
         extract($args);
         if (isset($this->c)) {
             $c = $this->c;
@@ -367,8 +330,7 @@ class BaseView extends Object
      * @access private
      * @return boolean
      */
-    public function editingEnabled()
-    {
+    public function editingEnabled() {
         return $this->isEditingEnabled;
     }
 
@@ -378,8 +340,7 @@ class BaseView extends Object
      * @access private
      * @return void
      */
-    public function disableEditing()
-    {
+    public function disableEditing() {
         $this->isEditingEnabled = false;
     }
 
@@ -389,10 +350,11 @@ class BaseView extends Object
      * @access private
      * @return void
      */
-    public function enableEditing()
-    {
+    public function enableEditing() {
         $this->isEditingEnabled = true;
     }
+
+
 
 
     /**
@@ -403,8 +365,7 @@ class BaseView extends Object
      * @param object $cnt
      * @return void
      */
-    public function setController($cnt)
-    {
+    public function setController($cnt) {
         $this->controller = $cnt;
     }
 
@@ -416,8 +377,7 @@ class BaseView extends Object
      * @param string $url
      * @return boolean | void
      */
-    public function section($url)
-    {
+    public function section($url) {
         $cPath = Page::getCurrentPage()->getCollectionPath();
         if (!empty($cPath)) {
             $url = '/' . trim($url, '/');
@@ -435,8 +395,7 @@ class BaseView extends Object
      * @param string $task
      * @return string $url
      */
-    public function url($action, $task = null)
-    {
+    public function url($action, $task = null) {
         $dispatcher = '';
         if ((!URL_REWRITING_ALL) || !defined('URL_REWRITING_ALL')) {
             $dispatcher = '/' . DISPATCHER_FILENAME;
@@ -449,9 +408,9 @@ class BaseView extends Object
 
         // if a query string appears in this variable, then we just pass it through as is
         if (strpos($action, '?') > -1) {
-            return DIR_REL . $dispatcher . '/' . $action;
+            return DIR_REL . $dispatcher. '/' . $action;
         } else {
-            $_action = DIR_REL . $dispatcher . '/' . $action . '/';
+            $_action = DIR_REL . $dispatcher. '/' . $action . '/';
         }
 
         if ($task != null) {
@@ -462,7 +421,7 @@ class BaseView extends Object
             }
             $args = func_get_args();
             if (count($args) > 2) {
-                for ($i = 2; $i < count($args); $i++) {
+                for ($i = 2; $i < count($args); $i++){
                     $_action .= '/' . $args[$i];
                 }
             }
@@ -481,8 +440,7 @@ class BaseView extends Object
      * @param string $task
      * @return string $url
      */
-    public function action($action, $task = null)
-    {
+    public function action($action, $task = null) {
         $a = func_get_args();
         array_unshift($a, $this->viewPath);
         $ret = call_user_func_array(array($this, 'url'), $a);
@@ -497,8 +455,7 @@ class BaseView extends Object
      * @param string $error
      * @return void
      */
-    public function renderError($title, $error, $errorObj = null)
-    {
+    public function renderError($title, $error, $errorObj = null) {
         $innerContent = $error;
         $titleContent = $title;
         if (!isset($this) || (!$this)) {
@@ -520,8 +477,7 @@ class BaseView extends Object
     /**
      * @private
      */
-    public static function defaultExceptionHandler($e)
-    {
+    public static function defaultExceptionHandler($e) {
         View::renderError(t('An unexpected error occurred.'), $e->getMessage(), $e);
     }
 
@@ -531,8 +487,7 @@ class BaseView extends Object
      * @param string $theme
      * @return void
      */
-    public function setTheme($theme)
-    {
+    public function setTheme($theme) {
         $this->themeOverride = $theme;
     }
 
@@ -547,8 +502,7 @@ class BaseView extends Object
      * @param boolean $wrapTemplateInTheme
      * @return void
      */
-    private function setThemeForView($pl, $filename, $wrapTemplateInTheme = false)
-    {
+    private function setThemeForView($pl, $filename, $wrapTemplateInTheme = false) {
         // wrapTemplateInTheme gets set to true if we're passing the filename of a single page or page type file through
         $pkgID = 0;
         if ($pl instanceof PageTheme) {
@@ -622,13 +576,10 @@ class BaseView extends Object
         $this->themeDir = $themeDir;
         $this->themePkgID = $pkgID;
     }
-
-    public function escape($text)
-    {
+    public function escape($text){
         Loader::helper('text');
         return TextHelper::sanitize($text);
     }
-
     /**
      * render takes one argument - the item being rendered - and it can either be a path or a page object
      * @access public
@@ -636,9 +587,8 @@ class BaseView extends Object
      * @param array $args
      * @return void
      */
-    public function render($view, $args = null)
-    {
-        global $db;
+    public function render($view, $args = null) {
+
         try {
             if (is_array($args)) {
                 extract($args);
@@ -683,18 +633,18 @@ class BaseView extends Object
                 // $view is a page. It can either be a SinglePage or just a Page, but we're not sure at this point, unfortunately
                 if ($view->getCollectionTypeID() == 0 && $cFilename) {
                     $wrapTemplateInTheme = true;
-                    if (file_exists(DIR_FILES_CONTENT . "{$cFilename}")) {
-                        $content = DIR_FILES_CONTENT . "{$cFilename}";
+                    if (file_exists(DIR_FILES_CONTENT. "{$cFilename}")) {
+                        $content = DIR_FILES_CONTENT. "{$cFilename}";
                     } else if ($view->getPackageID() > 0) {
-                        $file1 = DIR_PACKAGES . '/' . $view->getPackageHandle() . '/' . DIRNAME_PAGES . $cFilename;
-                        $file2 = DIR_PACKAGES_CORE . '/' . $view->getPackageHandle() . '/' . DIRNAME_PAGES . $cFilename;
+                        $file1 = DIR_PACKAGES . '/' . $view->getPackageHandle() . '/'. DIRNAME_PAGES . $cFilename;
+                        $file2 = DIR_PACKAGES_CORE . '/' . $view->getPackageHandle() . '/'. DIRNAME_PAGES . $cFilename;
                         if (file_exists($file1)) {
                             $content = $file1;
                         } else if (file_exists($file2)) {
                             $content = $file2;
                         }
                     } else if (file_exists(DIR_FILES_CONTENT_REQUIRED . "{$cFilename}")) {
-                        $content = DIR_FILES_CONTENT_REQUIRED . "{$cFilename}";
+                        $content = DIR_FILES_CONTENT_REQUIRED. "{$cFilename}";
                     }
 
                     $themeFilename = $c->getCollectionHandle() . '.php';
@@ -703,12 +653,12 @@ class BaseView extends Object
                     if (file_exists(DIR_BASE . '/' . DIRNAME_PAGE_TYPES . '/' . $ctHandle . '.php')) {
                         $content = DIR_BASE . '/' . DIRNAME_PAGE_TYPES . '/' . $ctHandle . '.php';
                         $wrapTemplateInTheme = true;
-                    } else if (file_exists(DIR_BASE_CORE . '/' . DIRNAME_PAGE_TYPES . '/' . $ctHandle . '.php')) {
+                    } else if (file_exists(DIR_BASE_CORE. '/' . DIRNAME_PAGE_TYPES . '/' . $ctHandle . '.php')) {
                         $content = DIR_BASE_CORE . '/' . DIRNAME_PAGE_TYPES . '/' . $ctHandle . '.php';
                         $wrapTemplateInTheme = true;
                     } else if ($view->getPackageID() > 0) {
-                        $file1 = DIR_PACKAGES . '/' . $view->getPackageHandle() . '/' . DIRNAME_PAGE_TYPES . '/' . $ctHandle . '.php';
-                        $file2 = DIR_PACKAGES_CORE . '/' . $view->getPackageHandle() . '/' . DIRNAME_PAGE_TYPES . '/' . $ctHandle . '.php';
+                        $file1 = DIR_PACKAGES . '/' . $view->getPackageHandle() . '/'. DIRNAME_PAGE_TYPES . '/' . $ctHandle . '.php';
+                        $file2 = DIR_PACKAGES_CORE . '/' . $view->getPackageHandle() . '/'. DIRNAME_PAGE_TYPES . '/' . $ctHandle . '.php';
                         if (file_exists($file1)) {
                             $content = $file1;
                             $wrapTemplateInTheme = true;
@@ -767,8 +717,10 @@ class BaseView extends Object
 
             if (is_object($this->c)) {
                 $c = $this->c;
-                if (is_object($db) && $view == '/page_not_found') {
+                if (defined('DB_DATABASE') && $view == '/page_not_found') {
                     $view = $c;
+                    $req = Request::get();
+                    $req->setCurrentPage($c);
                 }
             }
 
@@ -815,10 +767,10 @@ class BaseView extends Object
                     }
                 }
 
-                foreach ($_pageBlocks as $b1) {
+                foreach($_pageBlocks as $b1) {
                     $btc = $b1->getInstance();
                     // now we inject any custom template CSS and JavaScript into the header
-                    if ('Controller' != get_class($btc)) {
+                    if('Controller' != get_class($btc)){
                         $btc->outputAutoHeaderItems();
                     }
                     $btc->runTask('on_page_view', array($view));
@@ -829,7 +781,7 @@ class BaseView extends Object
                 if ($cp->canWrite() || $cp->canAddSubContent() || $cp->canAdminPage() || $cp->canApproveCollection()) {
                     $ih = Loader::helper('concrete/interface/menu');
                     $_interfaceItems = $ih->getPageHeaderMenuItems();
-                    foreach ($_interfaceItems as $_im) {
+                    foreach($_interfaceItems as $_im) {
                         $_controller = $_im->getController();
                         $_controller->outputAutoHeaderItems();
                     }
@@ -878,7 +830,7 @@ class BaseView extends Object
                 ob_end_clean();
 
                 $ret = Events::fire('on_page_output', $pageContent);
-                if ($ret != '') {
+                if($ret != '') {
                     print $ret;
                 } else {
                     print $pageContent;
@@ -903,7 +855,7 @@ class BaseView extends Object
 
             }
 
-        } catch (ADODB_Exception $e) {
+        } catch(ADODB_Exception $e) {
             // if it's a database exception we go here.
             if (Config::get('SITE_DEBUG_LEVEL') == DEBUG_DISPLAY_ERRORS) {
                 $this->renderError(t('An unexpected error occurred.'), $e->getMessage(), $e);
